@@ -1,0 +1,18 @@
+
+
+Just some notes.
+
+
+# compiling
+make name  (no .c)
+cc name.c -o name
+
+
+# using valgrind
+valgrind ./executable
+
+
+# adding to the path
+~/.bash_profile
+export PATH=$PATH:/new/stuff/
+

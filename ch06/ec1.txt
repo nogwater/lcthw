@@ -1,0 +1,36 @@
+Thoughts on each line:
+
+01: #include <stdio.h>
+	Where is this found?
+	Is it really injected right here?
+	How does it keep the line numbers straight?
+
+03: /* This is a comment */
+	Simple multi-line comment.
+	You can't nest these, but some people do funny things with them.
+
+04: int main(int argc, char *argv[])
+	Function decleration (and soon initialization).
+	Type, name, arglist.  Pretty standard, maybe confusing because output type is on the left, and input types and names are on the right.
+
+05: {
+	Start of a block.  I think that blocks are required for functions, but not for everything that uses blocks.  Go figure.
+
+06: int distance = 100;
+	Hey, at least it's consistant.  Type, name, value;
+	Initialization could be elsewhere.
+	Lexical scope applies.
+
+08: // this is also a comment
+	Why have one type of comment when you can have two?
+
+09: printf("You are %d miles away.\n", distance);
+	Magic! Allows for 1 or more args.
+	It can't/doesn't check for types which can lead to mahem.
+	Sorta annoying that there's no built in println.  Oh well.
+
+11: return 0;
+	0 means okay!  Unix is strange that 0 is usually false.  Guess it's returning that errors=false.  But why return errors in the same path as data?
+
+12: }
+	Duh.
