@@ -27,6 +27,20 @@ double update_ratio(double new_ratio)
 	return old_ratio;
 }
 
+double double_pointer(double *new_ptr)
+{
+	static double *ptr = NULL;
+	if (new_ptr != NULL)
+	{
+		ptr = new_ptr;
+	}
+	if (ptr != NULL)
+	{
+		return 2.0 * *ptr;
+	}
+	return 0.0;
+}
+
 void print_size()
 {
 	log_info("I think size is: %d", THE_SIZE);

@@ -50,5 +50,15 @@ int main(int argc, char *argv[])
 
 	log_info("count after calling scope_demo: %d", count);
 
+	// try to break it
+	// ratio = 2.5; // error: 'ratio' undeclared (first use in this function)
+	// log_info("Ratio is now: %f", ratio);
+	log_info("Weird double: %f", double_pointer(NULL));
+	double d = 2.0;
+	double *ptr = &d;
+	log_info("Weird double: %f", double_pointer(ptr));
+	d = 10.0;
+	log_info("Weird double: %f", double_pointer(NULL));
+
 	return 0;
 }
