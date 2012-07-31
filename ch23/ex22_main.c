@@ -68,5 +68,7 @@ int main(int argc, char *argv[])
 	// lang = 'c'; // error: assignment of read-only variable 'lang'
 	log_info("This is written in %c.", lang);
 
+	// recurse_death(); // Segmentation fault: 11
+
 	return 0;
 }

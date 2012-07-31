@@ -15,4 +15,6 @@ double double_pointer(double *new_ptr);
 
 void print_size();
 
+void recurse_death();
+
 #endif

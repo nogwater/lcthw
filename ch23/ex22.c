@@ -45,3 +45,11 @@ void print_size()
 {
 	log_info("I think size is: %d", THE_SIZE);
 }
+
+void recurse_death()
+{
+	int a = 1;
+	if (a) {
+		recurse_death();
+	}
+}
