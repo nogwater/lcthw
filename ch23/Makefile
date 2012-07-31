@@ -1,10 +1,10 @@
-CFLAGS=-Wall -g
+CFLAGS=-Wall -g -DNDEBUG
 
-all: ex22
+all: ex22_main
 
-ec: ec22
+ex22_main: ex22_main.c ex22.o
 
 clean:
-	rm -f ex222
-	rm -f ec22
+	rm -f ex22.o
+	rm -f ex22_main
 	rm -r *.dSYM
