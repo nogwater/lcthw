@@ -1,7 +1,8 @@
 #include "ex22.h"
 #include "dbg.h"
 
-const char *MY_NAME = "Zed A. Shaw";
+static const char *MY_NAME = "Zed A. Shaw";
+const char lang = 'C';
 
 void scope_demo(int count)
 {
@@ -22,7 +23,7 @@ void scope_demo(int count)
 
 int main(int argc, char *argv[])
 {
-	// tst out THE_AGE accessors
+	// test out THE_AGE accessors
 	log_info("My name: %s, age: %d", MY_NAME, get_age());
 
 	set_age(100);
@@ -59,6 +60,13 @@ int main(int argc, char *argv[])
 	log_info("Weird double: %f", double_pointer(ptr));
 	d = 10.0;
 	log_info("Weird double: %f", double_pointer(NULL));
+
+	// umm... why is this allowed with a static const?
+	MY_NAME = "Aaron McBride";
+	log_info("My name: %s", MY_NAME);
+
+	// lang = 'c'; // error: assignment of read-only variable 'lang'
+	log_info("This is written in %c.", lang);
 
 	return 0;
 }
