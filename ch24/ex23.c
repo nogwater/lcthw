@@ -14,6 +14,27 @@ int normal_copy(char *from, char *to, int count)
 	return i;
 }
 
+int duffs_device(char *from, char *to, int count)
+{
+	{
+		int n = (count + 7) / 8;
+
+		switch (count % 8) {
+			case 0: do { *to++ = *from++;
+						case 7: *to++ = *from++;
+						case 6: *to++ = *from++;
+						case 5: *to++ = *from++;
+						case 4: *to++ = *from++;
+						case 3: *to++ = *from++;
+						case 2: *to++ = *from++;
+						case 1: *to++ = *from++;
+					} while(--n > 0);
+		}
+	}
+
+	return count;
+}
+
 int valid_copy(char *data, int count, char expects)
 {
 	int i = 0;
@@ -44,6 +65,14 @@ int main(int argc, char *argv[])
 	rc = normal_copy(from, to, 1000);
 	check(rc == 1000, "Normal copy failed: %d", rc);
 	check(valid_copy(to, 1000, 'x'), "Normal copy failed.");
+
+	// reset
+	memset(to, 'y', 1000);
+
+	// duffs version
+	rc = duffs_device(from, to, 1000);
+	check(rc == 1000, "Duff's device failed: %d", rc);
+	check(valid_copy(to, 1000, 'x'), "Duff's device failed.");
 
 	return 0;
 error:
