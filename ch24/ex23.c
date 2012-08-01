@@ -35,6 +35,29 @@ int duffs_device(char *from, char *to, int count)
 	return count;
 }
 
+int zeds_device(char *from, char *to, int count)
+{
+	{
+		int n = (count + 7) / 8;
+
+		switch(count % 8) {
+			case 0:
+			again: *to++ = *from++;
+
+			case 7: *to++ = *from++;
+			case 6: *to++ = *from++;
+			case 5: *to++ = *from++;
+			case 4: *to++ = *from++;
+			case 3: *to++ = *from++;
+			case 2: *to++ = *from++;
+			case 1: *to++ = *from++;
+					if (--n > 0) goto again;
+		}
+	}
+
+	return count;
+}
+
 int valid_copy(char *data, int count, char expects)
 {
 	int i = 0;
@@ -73,6 +96,14 @@ int main(int argc, char *argv[])
 	rc = duffs_device(from, to, 1000);
 	check(rc == 1000, "Duff's device failed: %d", rc);
 	check(valid_copy(to, 1000, 'x'), "Duff's device failed.");
+
+	// reset
+	memset(to, 'y', 1000);
+
+	// zed's version
+	rc = duffs_device(from, to, 1000);
+	check(rc == 1000, "Zed's device failed: %d", rc);
+	check(valid_copy(to, 1000, 'x'), "Zed's device failed.");
 
 	return 0;
 error:
