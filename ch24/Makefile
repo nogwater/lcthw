@@ -1,4 +1,5 @@
 CFLAGS=-Wall -g -DNDEBUG
+#CFLAGS=-Wall -O3 -g -DNDEBUG
 
 all: ex23
 

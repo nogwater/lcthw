@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <string.h>
+#include <sys/time.h>
 #include "dbg.h"
 
+#define CASES_0_7_1(code) again: case 0:code; case 7:code; case 6:code; case 5:code; case 4:code; case 3:code; case 2:code; case 1:code; 
 
 int normal_copy(char *from, char *to, int count)
 {
@@ -37,7 +39,7 @@ int duffs_device(char *from, char *to, int count)
 
 int zeds_device(char *from, char *to, int count)
 {
-	{
+	// {  // why did Zed add this block level?
 		int n = (count + 7) / 8;
 
 		switch(count % 8) {
@@ -53,6 +55,19 @@ int zeds_device(char *from, char *to, int count)
 			case 1: *to++ = *from++;
 					if (--n > 0) goto again;
 		}
+	// }
+
+	return count;
+}
+
+
+int zeds_short_device(char *from, char *to, int count)
+{
+	int n = (count + 7) / 8;
+
+	switch(count % 8) {
+		CASES_0_7_1(*to++ = *from++)
+		if (--n > 0) goto again;
 	}
 
 	return count;
@@ -69,6 +84,23 @@ int valid_copy(char *data, int count, char expects)
 	}
 
 	return 1;
+}
+
+double time_it(int(*copier)(char *, char *, int), int count)
+{
+	struct timeval tvBegin, tvEnd;
+	char from[10000] = {'a'};
+	char to[10000] = {'c'};
+
+	int i = 0;
+
+	gettimeofday(&tvBegin, NULL);
+	for (i = 0; i < count; i++) {
+		copier(from, to, 10000);
+	}
+	gettimeofday(&tvEnd, NULL);
+
+	return (tvEnd.tv_sec - tvBegin.tv_sec) + ((tvEnd.tv_usec - tvBegin.tv_usec) / 1000000.0);
 }
 
 
@@ -101,9 +133,24 @@ int main(int argc, char *argv[])
 	memset(to, 'y', 1000);
 
 	// zed's version
-	rc = duffs_device(from, to, 1000);
+	rc = zeds_device(from, to, 1000);
 	check(rc == 1000, "Zed's device failed: %d", rc);
 	check(valid_copy(to, 1000, 'x'), "Zed's device failed.");
+
+	// zed's extra credit version
+	rc = zeds_short_device(from, to, 1000);
+	check(rc == 1000, "Zed's short device failed: %d", rc);
+	check(valid_copy(to, 1000, 'x'), "Zed's short device failed.");
+
+	// reset
+	memset(to, 'y', 1000);
+
+	// time some stuff (try this with and without -O3 in Makefile)
+	log_info("Time to run normal_copy: %.5f", time_it(normal_copy, 10000));
+	log_info("Time to run duffs_device: %.5f", time_it(duffs_device, 10000));
+	log_info("Time to run zeds_device: %.5f", time_it(zeds_device, 10000));
+	log_info("Time to run zeds_short_device: %.5f", time_it(zeds_short_device, 10000));
+
 
 	return 0;
 error:
