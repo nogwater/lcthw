@@ -30,6 +30,10 @@ int main(int argc, char *argv[])
 	printf("What's your First Name? ");
 	in = fgets(you.first_name, MAX_DATA-1, stdin);	// NOTE: this includes the trailing new-line
 	check(in != NULL, "Failed to read first name.");
+	// rc = fscanf(stdin, "%50s", you.first_name);	// fscanf is bad for strings
+	// check(rc > 0, "You have to enter a first name.");
+	// in = gets(you.first_name);  // WARNING: will read too much! Very Bad! Never use gets()
+	// check(in != NULL, "Failed to read first name.");
 
 	printf("What's your Last Name? ");
 	in = fgets(you.last_name, MAX_DATA-1, stdin);	// NOTE: this includes the trailing new-line
