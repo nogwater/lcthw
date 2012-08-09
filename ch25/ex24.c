@@ -24,8 +24,7 @@ typedef struct Person {
 // reads from standard input and writes to str
 // reads at most size-1 chars from stdin (need space for \0)
 // stops at \n
-// returns number of chars read
-int readline(char *str, int size)
+void readline(char *str, int size)
 {
 	int i = 0;
 	unsigned char ch;
@@ -39,7 +38,6 @@ int readline(char *str, int size)
 		}
 	}
 	str[i] = '\0';
-	return i;
 }
 
 int main(int argc, char *argv[])
