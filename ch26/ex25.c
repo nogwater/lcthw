@@ -95,7 +95,88 @@ error:
 	return -1;
 }
 
+void print_int(int a)
+{
+	int neg = 0;
+	char digits[9];
+	int i = 0;
 
+	if (a < 0) {
+		neg = 1;
+		a *= -1;
+	}
+
+	do {
+		digits[i++] = '0' + (a % 10);
+		a /= 10;
+	} while (a != 0);
+
+
+	if (neg == 1) {
+		putchar('-');
+	}
+
+	for ( ; i >= 0; i--) {
+		putchar(digits[i]);
+	}
+}
+
+void print_str(const char *str)
+{
+	int i = 0;
+	while (str[i] != '\0') {
+		putchar(str[i]);
+	}
+}
+
+int print_format(const char *fmt, ...)
+{
+	int i = 0;
+	int in_int = 0;
+	int in_char = 0;
+	char *in_str = NULL;
+
+	va_list argp;
+	va_start(argp, fmt);
+
+	for (i = 0; fmt[i] != '\0'; i++) {
+		if (fmt[i] == '%') {
+			i++;
+			switch(fmt[i]) {
+				case '\0':
+					sentinel("Invalid format, you ended with %%.");
+					break;
+
+				case 'd':
+					in_int = va_arg(argp, int);
+					print_int(in_int);
+					break;
+
+				case 'c':
+					in_char = va_arg(argp, int);
+					putchar(in_char);
+					break;
+
+				case 's':
+					in_str = va_arg(argp, char *);
+					print_str(in_str);
+					break;
+
+				default:
+					sentinel("Invalid format.");
+			}
+		} else {
+			putchar(fmt[i]);
+		}
+	}
+
+	va_end(argp);
+	return 0;
+
+error:
+	va_end(argp);
+	return -1;
+}
 
 int main(int argc, char *argv[])
 {
@@ -103,6 +184,11 @@ int main(int argc, char *argv[])
 	char initial = ' ';
 	char *last_name = NULL;
 	int age = 0;
+
+	// break it!
+	// read_scan("%s", 1000, 12345);// Segmentation fault: 11
+	// read_scan("%s", 3, &first_name);
+	print_format("Hello World!\n");
 
 	printf("What's your first name? ");
 	int rc = read_scan("%s", MAX_DATA, &first_name);
@@ -123,7 +209,7 @@ int main(int argc, char *argv[])
 	printf("First Name: %s", first_name);
 	printf("Initial: '%c'\n", initial);
 	printf("Last Name: %s", last_name);
-	printf("Age: %d\n", age);
+	print_format("Age: %d\n", age);
 
 	free(first_name);
 	free(last_name);
